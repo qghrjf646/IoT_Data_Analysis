@@ -18,7 +18,6 @@
 % Custom colors
 \definecolor{epita}{RGB}{0,84,147}
 \definecolor{darkblue}{RGB}{26,54,93}
-\definecolor{lightgray}{RGB}{245,245,245}
 
 \setbeamercolor{title}{fg=white,bg=epita}
 \setbeamercolor{frametitle}{fg=white,bg=epita}
@@ -27,89 +26,72 @@
 % Title information
 \title{CIC-IIoT-2025 Security Analysis}
 \subtitle{Machine Learning for Intrusion Detection in Industrial IoT}
-\author{Yahya Ahachim}
+\author{Alexis Le Trung, Yahya Ahachim, Rayan Drissi, Aniss Outaleb}
 \institute{ML Security -- EPITA SCIA 2026}
-\date{January 2025}
+\date{January 2026}
 
 \begin{document}
 
 %==============================================================================
-% Title slide
+% Slide 1: Title
 %==============================================================================
 \begin{frame}
 \titlepage
 \end{frame}
 
 %==============================================================================
-% Agenda
+% Slide 2: Agenda
 %==============================================================================
 \begin{frame}{Agenda}
 \begin{enumerate}
-    \item Dataset Overview
-    \item Data Exploration
-    \item Anomaly Detection Methods
-    \item Classification Methods
+    \item Dataset Overview and Exploration
+    \item Anomaly Detection (Unsupervised)
+    \item Classification (Supervised)
     \item Adversarial Machine Learning
-    \item Results Comparison
-    \item Conclusions and Recommendations
+    \item Recommendations
 \end{enumerate}
+\vspace{0.5cm}
+\textbf{Objective:} Evaluate ML methods for IIoT intrusion detection and assess adversarial robustness
 \end{frame}
 
 %==============================================================================
-% Dataset Overview
+% Slide 3: Dataset Overview
 %==============================================================================
-\begin{frame}{Dataset Overview}
+\begin{frame}{CIC-IIoT-2025 Dataset}
 \begin{columns}
-\begin{column}{0.5\textwidth}
-\textbf{CIC-IIoT-2025 Dataset}
-\vspace{0.5cm}
-
+\begin{column}{0.45\textwidth}
 \begin{table}
 \centering
+\small
 \begin{tabular}{lr}
 \toprule
 \textbf{Attribute} & \textbf{Value} \\
 \midrule
 Total Samples & 227,191 \\
 Features & 94 \\
-Attack Ratio & 39.79\% \\
+Attack Samples & 90,391 (39.8\%) \\
+Benign Samples & 136,800 (60.2\%) \\
 Attack Categories & 7 \\
-Specific Attacks & 60 \\
 \bottomrule
 \end{tabular}
 \end{table}
-\end{column}
-\begin{column}{0.5\textwidth}
-\textbf{Attack Categories}
 \vspace{0.3cm}
-\begin{itemize}
-    \item Reconnaissance (37.2\%)
-    \item DoS (20.4\%)
-    \item DDoS (20.0\%)
-    \item Man-in-the-Middle (8.9\%)
-    \item Malware (8.3\%)
-    \item Web Attacks (3.1\%)
-    \item Brute Force (2.1\%)
-\end{itemize}
+\small
+\textbf{Categories:} Reconnaissance, DoS, DDoS, MitM, Malware, Web, Brute Force
+\end{column}
+\begin{column}{0.55\textwidth}
+\includegraphics[width=\textwidth]{figures/class_distribution.png}
 \end{column}
 \end{columns}
 \end{frame}
 
 %==============================================================================
-% Attack Distribution
-%==============================================================================
-\begin{frame}{Attack Distribution}
-\begin{center}
-\includegraphics[width=0.75\textwidth]{figures/class_distribution.png}
-\end{center}
-\end{frame}
-
-%==============================================================================
-% Key Features
+% Slide 4: Key Features
 %==============================================================================
 \begin{frame}{Key Discriminative Features}
 \begin{columns}
 \begin{column}{0.5\textwidth}
+\textbf{Top Correlated Features:}
 \begin{table}
 \centering
 \small
@@ -125,8 +107,8 @@ network\_packets\_all\_count & 0.367 \\
 \bottomrule
 \end{tabular}
 \end{table}
-\vspace{0.3cm}
-\textbf{Key Insight:} TCP MSS and protocol diversity are strong attack indicators
+\vspace{0.2cm}
+\small TCP MSS and protocol diversity are strong attack indicators
 \end{column}
 \begin{column}{0.5\textwidth}
 \includegraphics[width=\textwidth]{figures/correlation_heatmap.png}
@@ -135,170 +117,143 @@ network\_packets\_all\_count & 0.367 \\
 \end{frame}
 
 %==============================================================================
-% Anomaly Detection Methods
+% Slide 5: Anomaly Detection Methods
 %==============================================================================
-\begin{frame}{Anomaly Detection Methods}
-\textbf{Unsupervised Learning} -- Trained on benign traffic only
-\vspace{0.5cm}
+\begin{frame}{Anomaly Detection (Unsupervised)}
+\textbf{Trained on benign traffic only} -- Detects zero-day attacks
+\vspace{0.3cm}
 
 \begin{table}
 \centering
-\begin{tabular}{p{4cm}p{8cm}}
+\small
+\begin{tabular}{p{3.5cm}p{9cm}}
 \toprule
-\textbf{Method} & \textbf{Description} \\
+\textbf{Method} & \textbf{Approach} \\
 \midrule
-Isolation Forest & Tree-based isolation of anomalies via random partitioning \\
-One-Class SVM & Boundary learning in high-dimensional feature space \\
-Local Outlier Factor & Local density deviation detection using k-neighbors \\
+Isolation Forest & Tree-based isolation via random partitioning \\
+One-Class SVM & Kernel-based boundary in feature space \\
+Local Outlier Factor & Local density deviation detection \\
 \bottomrule
 \end{tabular}
 \end{table}
-\vspace{0.5cm}
-\textbf{Objective:} Detect zero-day attacks without requiring labeled attack samples
+\vspace{0.3cm}
+\textbf{Evaluation Metric:} AUPRC (Area Under Precision-Recall Curve) -- robust for imbalanced detection
 \end{frame}
 
 %==============================================================================
-% Anomaly Detection Results
+% Slide 6: Anomaly Detection Results
 %==============================================================================
 \begin{frame}{Anomaly Detection Results}
+\begin{columns}
+\begin{column}{0.55\textwidth}
 \begin{table}
 \centering
-\begin{tabular}{lccccc}
+\small
+\begin{tabular}{lcccc}
 \toprule
-\textbf{Model} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{Bal. Acc.} & \textbf{MCC} \\
+\textbf{Model} & \textbf{F1} & \textbf{AUPRC} & \textbf{MCC} \\
 \midrule
-Isolation Forest & 0.883 & 0.776 & 0.826 & 0.837 & 0.678 \\
-One-Class SVM & 0.585 & 0.848 & 0.692 & 0.623 & 0.275 \\
-\textbf{LOF} & \textbf{0.887} & \textbf{0.803} & \textbf{0.843} & \textbf{0.851} & \textbf{0.704} \\
+Isolation Forest & 0.832 & 0.889 & 0.688 \\
+One-Class SVM & 0.693 & 0.862 & 0.276 \\
+\textbf{LOF} & \textbf{0.844} & \textbf{0.895} & \textbf{0.705} \\
 \bottomrule
 \end{tabular}
 \end{table}
-\vspace{0.5cm}
-\begin{center}
-\textbf{Best Performer: Local Outlier Factor}
-\end{center}
+\vspace{0.3cm}
+\textbf{Winner: Local Outlier Factor}\\
+Density-based methods excel on this dataset
+\end{column}
+\begin{column}{0.45\textwidth}
+\includegraphics[width=\textwidth]{figures/anomaly_detection_comparison.png}
+\end{column}
+\end{columns}
 \end{frame}
 
 %==============================================================================
-% Anomaly Detection Comparison Figure
+% Slide 7: Classification Methods
 %==============================================================================
-\begin{frame}{Anomaly Detection Comparison}
-\begin{center}
-\includegraphics[width=0.7\textwidth]{figures/anomaly_detection_comparison.png}
-\end{center}
-\end{frame}
-
-%==============================================================================
-% Classification Methods
-%==============================================================================
-\begin{frame}{Classification Methods}
-\textbf{Supervised Learning} -- Using labeled attack and benign samples
-\vspace{0.5cm}
+\begin{frame}{Classification (Supervised)}
+\textbf{Using labeled attack and benign samples}
+\vspace{0.3cm}
 
 \begin{table}
 \centering
-\begin{tabular}{p{4cm}p{8cm}}
+\small
+\begin{tabular}{p{4cm}p{8.5cm}}
 \toprule
-\textbf{Method} & \textbf{Description} \\
+\textbf{Method} & \textbf{Approach} \\
 \midrule
 Random Forest & Ensemble of decision trees with majority voting \\
-Gradient Boosting & Sequential error correction through boosting \\
+Gradient Boosting & Sequential boosting with error correction \\
 SVM (RBF Kernel) & Kernel-based non-linear separation \\
 \bottomrule
 \end{tabular}
 \end{table}
-\vspace{0.5cm}
-\textbf{Objective:} Accurately classify known attack types with high precision
+\vspace{0.3cm}
+\textbf{Terminology:}
+\begin{itemize}
+    \item \textbf{Astute Accuracy:} Performance on clean (non-adversarial) data
+    \item \textbf{Robust Accuracy:} Performance under adversarial attack
+\end{itemize}
 \end{frame}
 
 %==============================================================================
-% Classification Results
+% Slide 8: Classification Results
 %==============================================================================
 \begin{frame}{Classification Results}
+\begin{columns}
+\begin{column}{0.55\textwidth}
 \begin{table}
 \centering
 \small
-\begin{tabular}{lcccccc}
+\begin{tabular}{lccc}
 \toprule
-\textbf{Model} & \textbf{Prec.} & \textbf{Recall} & \textbf{F1} & \textbf{MCC} & \textbf{AUPRC} & \textbf{AUC} \\
+\textbf{Model} & \textbf{F1} & \textbf{MCC} & \textbf{AUC} \\
 \midrule
-Random Forest & 0.992 & 0.863 & 0.923 & 0.883 & 0.944 & 0.958 \\
-\textbf{Gradient Boosting} & \textbf{0.991} & \textbf{0.866} & \textbf{0.925} & \textbf{0.885} & \textbf{0.944} & \textbf{0.959} \\
-SVM (RBF) & 0.963 & 0.797 & 0.872 & 0.807 & 0.924 & 0.932 \\
+\textbf{Random Forest} & \textbf{0.927} & \textbf{0.890} & \textbf{0.961} \\
+Gradient Boosting & 0.925 & 0.886 & 0.961 \\
+SVM (RBF) & 0.874 & 0.811 & 0.935 \\
 \bottomrule
 \end{tabular}
 \end{table}
-\vspace{0.5cm}
-\begin{center}
-\textbf{Best Performer: Gradient Boosting}
-\end{center}
-\end{frame}
-
-%==============================================================================
-% Classification Comparison Figure
-%==============================================================================
-\begin{frame}{Classification Comparison}
-\begin{center}
-\includegraphics[width=0.7\textwidth]{figures/classification_comparison.png}
-\end{center}
-\end{frame}
-
-%==============================================================================
-% Confusion Matrices
-%==============================================================================
-\begin{frame}{Confusion Matrices}
-\begin{center}
-\includegraphics[width=0.8\textwidth]{figures/confusion_matrices.png}
-\end{center}
-\vspace{0.2cm}
-\textbf{Key:} High precision ($>$96\%) minimizes false alarms; Good recall ($>$80\%) detects most attacks
-\end{frame}
-
-%==============================================================================
-% Adversarial ML Introduction
-%==============================================================================
-\begin{frame}{Adversarial Machine Learning}
-\textbf{Fast Gradient Sign Method (FGSM)}
 \vspace{0.3cm}
+\textbf{Winner: Random Forest}\\
+All classifiers achieve $>$87\% F1-score
+\end{column}
+\begin{column}{0.45\textwidth}
+\includegraphics[width=\textwidth]{figures/classification_comparison.png}
+\end{column}
+\end{columns}
+\end{frame}
 
-Adversarial examples crafted using gradient information:
+%==============================================================================
+% Slide 9: Adversarial ML - Exploratory Attack
+%==============================================================================
+\begin{frame}{Adversarial ML: Exploratory Attack (FGSM)}
+\textbf{Fast Gradient Sign Method} -- Perturbs test samples
+\vspace{0.2cm}
+
 \begin{equation*}
 x_{adv} = x + \epsilon \cdot \text{sign}(\nabla_x J(\theta, x, y))
 \end{equation*}
 
-\vspace{0.3cm}
-\begin{itemize}
-    \item White-box attack assuming knowledge of model parameters
-    \item Perturbation magnitude controlled by $\epsilon$
-    \item Tests model vulnerability to input manipulation
-\end{itemize}
-\vspace{0.3cm}
-\textbf{Objective:} Assess model robustness in adversarial conditions
-\end{frame}
-
-%==============================================================================
-% FGSM Attack Results
-%==============================================================================
-\begin{frame}{FGSM Attack on Linear SVM}
 \begin{columns}
 \begin{column}{0.45\textwidth}
 \begin{table}
 \centering
 \small
-\begin{tabular}{ccc}
+\begin{tabular}{cc}
 \toprule
-$\epsilon$ & \textbf{Astute Acc.} & \textbf{Attack Rate} \\
+$\epsilon$ & \textbf{Robust Acc.} \\
 \midrule
-0.01 & 86.7\% & 13.3\% \\
-0.05 & 26.0\% & 74.0\% \\
-0.10 & 16.0\% & 84.0\% \\
-0.50 & 3.5\% & 96.5\% \\
-1.00 & 1.0\% & 99.0\% \\
+0.01 & 86.7\% \\
+0.05 & 26.0\% \\
+0.10 & 16.0\% \\
+0.50 & 3.5\% \\
 \bottomrule
 \end{tabular}
 \end{table}
-\vspace{0.3cm}
-Linear models are highly vulnerable to gradient-based attacks
+\small Linear SVM (Astute: 89.8\%)
 \end{column}
 \begin{column}{0.55\textwidth}
 \includegraphics[width=\textwidth]{figures/fgsm_attack_analysis.png}
@@ -307,40 +262,66 @@ Linear models are highly vulnerable to gradient-based attacks
 \end{frame}
 
 %==============================================================================
-% Adversarial Robustness Comparison
+% Slide 10: Adversarial ML - Causative Attack
 %==============================================================================
-\begin{frame}{Adversarial Robustness ($\epsilon=0.5$)}
+\begin{frame}{Adversarial ML: Causative Attack (Data Poisoning)}
+\textbf{Label Flipping} -- Poisons training data to shift decision boundary
+\vspace{0.3cm}
+
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\textbf{Attack Mechanism:}
+\begin{itemize}
+    \item Attacker corrupts training labels
+    \item Model learns incorrect boundaries
+    \item Attacks evade detection at inference
+\end{itemize}
+\vspace{0.3cm}
+\begin{table}
+\centering
+\small
+\begin{tabular}{cc}
+\toprule
+\textbf{Poison Rate} & \textbf{Accuracy} \\
+\midrule
+0\% & 94.3\% \\
+10\% & 85.2\% \\
+20\% & 72.1\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{column}
+\begin{column}{0.5\textwidth}
+\includegraphics[width=\textwidth]{figures/decision_boundary.png}
+\end{column}
+\end{columns}
+\end{frame}
+
+%==============================================================================
+% Slide 11: Model Robustness Comparison
+%==============================================================================
+\begin{frame}{Model Robustness Comparison ($\epsilon=0.5$)}
 \begin{table}
 \centering
 \begin{tabular}{lccc}
 \toprule
-\textbf{Model} & \textbf{Astute Acc.} & \textbf{Robust Acc.} & \textbf{Robustness} \\
+\textbf{Model} & \textbf{Astute Acc.} & \textbf{Robust Acc.} & \textbf{Robustness Ratio} \\
 \midrule
-Linear SVM & 89.8\% & 3.5\% & 3.9\% \\
-Gradient Boosting & 94.5\% & 43.5\% & 46.0\% \\
-\textbf{Random Forest} & \textbf{94.3\%} & \textbf{56.7\%} & \textbf{60.1\%} \\
+Linear SVM & 90.2\% & 3.2\% & 3.6\% \\
+Random Forest & 94.6\% & 3.8\% & 4.0\% \\
+\textbf{Gradient Boosting} & \textbf{94.4\%} & \textbf{34.0\%} & \textbf{36.0\%} \\
 \bottomrule
 \end{tabular}
 \end{table}
 \vspace{0.5cm}
 \begin{center}
-\textbf{Most Robust: Random Forest}\\
-\vspace{0.2cm}
-Ensemble methods provide better adversarial resilience
+\textbf{Finding:} Gradient Boosting retains 36\% accuracy under FGSM attack\\
+Linear models collapse to near-random performance
 \end{center}
 \end{frame}
 
 %==============================================================================
-% Robustness Figure
-%==============================================================================
-\begin{frame}{Model Robustness Comparison}
-\begin{center}
-\includegraphics[width=0.7\textwidth]{figures/model_robustness.png}
-\end{center}
-\end{frame}
-
-%==============================================================================
-% Best Models Summary
+% Slide 12: Summary
 %==============================================================================
 \begin{frame}{Summary: Best Models by Task}
 \begin{table}
@@ -350,106 +331,38 @@ Ensemble methods provide better adversarial resilience
 \toprule
 \textbf{Task} & \textbf{Best Model} & \textbf{Key Metric} \\
 \midrule
-Zero-day Detection & Local Outlier Factor & F1 = 0.843 \\
-Attack Classification & Gradient Boosting & F1 = 0.925 \\
-Adversarial Robustness & Random Forest & 60.1\% robust acc. \\
+Zero-day Detection & Local Outlier Factor & F1 = 0.844, AUPRC = 0.895 \\
+Attack Classification & Random Forest & F1 = 0.927, AUPRC = 0.946 \\
+Adversarial Robustness & Gradient Boosting & 36.0\% robust acc. \\
 \bottomrule
 \end{tabular}
 \end{table}
-\end{frame}
-
-%==============================================================================
-% Multi-Layer Defense
-%==============================================================================
-\begin{frame}{Multi-Layer Defense Strategy}
-\begin{enumerate}
-    \item \textbf{Layer 1: Anomaly Detection (LOF)}
-    \begin{itemize}
-        \item Zero-day attack early warning
-        \item Low computational overhead
-    \end{itemize}
-    \vspace{0.3cm}
-    \item \textbf{Layer 2: Classification (Random Forest / Gradient Boosting)}
-    \begin{itemize}
-        \item Categorize known attack types
-        \item High precision for alert prioritization
-    \end{itemize}
-    \vspace{0.3cm}
-    \item \textbf{Layer 3: Adversarial Defense}
-    \begin{itemize}
-        \item Input validation and sanitization
-        \item Ensemble voting for increased confidence
-    \end{itemize}
-\end{enumerate}
-\end{frame}
-
-%==============================================================================
-% Key Takeaways
-%==============================================================================
-\begin{frame}{Key Takeaways}
-\begin{itemize}
-    \item Machine learning effectively detects IIoT attacks (F1 $>$ 0.92)
-    \vspace{0.3cm}
-    \item Ensemble methods provide the best adversarial robustness
-    \vspace{0.3cm}
-    \item Anomaly detection enables zero-day threat identification
-    \vspace{0.3cm}
-    \item Linear models are vulnerable to gradient-based attacks
-    \vspace{0.3cm}
-    \item Combining methods provides defense-in-depth
-\end{itemize}
-\end{frame}
-
-%==============================================================================
-% Recommendations
-%==============================================================================
-\begin{frame}{Recommendations for Production Deployment}
-\textbf{Immediate Actions:}
-\begin{itemize}
-    \item Deploy Random Forest for robustness and interpretability
-    \item Add LOF layer for novel attack detection
-    \item Establish feature monitoring for drift detection
-\end{itemize}
 \vspace{0.5cm}
-\textbf{Enhanced Security:}
-\begin{itemize}
-    \item Implement adversarial training
-    \item Weekly model retraining with new threat data
-    \item Ensemble voting across multiple models
-\end{itemize}
+\textbf{Key Insight:} No single model excels at all tasks -- defense-in-depth required
 \end{frame}
 
 %==============================================================================
-% Future Work
+% Slide 13: Recommendations
 %==============================================================================
-\begin{frame}{Future Work}
-\begin{itemize}
-    \item Deep Learning (LSTM, CNN) for temporal pattern recognition
-    \vspace{0.3cm}
-    \item Federated Learning for distributed IIoT environments
-    \vspace{0.3cm}
-    \item Attack-specific detection models for improved granularity
-    \vspace{0.3cm}
-    \item Real-time feature extraction optimization
-\end{itemize}
-\end{frame}
-
-%==============================================================================
-% Demo
-%==============================================================================
-\begin{frame}{Demo}
-\textbf{Live Notebook Demonstration}
-\vspace{0.5cm}
+\begin{frame}{Recommendations}
+\textbf{Multi-Layer Defense Architecture:}
+\vspace{0.3cm}
 \begin{enumerate}
-    \item Data loading and exploration
-    \item Model training and evaluation
-    \item Adversarial attack simulation
-    \item Real-time predictions
+    \item \textbf{Layer 1 (LOF):} Zero-day attack early warning
+    \item \textbf{Layer 2 (Random Forest + Gradient Boosting):} Classification ensemble for accuracy and robustness
+    \item \textbf{Layer 3:} Input validation and adversarial training
 \end{enumerate}
+\vspace{0.5cm}
+\textbf{Production Hardening:}
+\begin{itemize}
+    \item Implement adversarial training with augmented samples
+    \item Regular model retraining with new threat intelligence
+    \item Feature monitoring for distribution drift
+\end{itemize}
 \end{frame}
 
 %==============================================================================
-% Questions
+% Slide 15: Questions
 %==============================================================================
 \begin{frame}{Questions}
 \begin{center}
@@ -457,24 +370,10 @@ Adversarial Robustness & Random Forest & 60.1\% robust acc. \\
 {\Large \textbf{Questions?}}
 \vspace{1cm}
 
-Yahya Ahachim\\
-ML Security -- EPITA SCIA 2026\\
+\textbf{CIC-IIoT-2025 Security Analysis}\\
+Machine Learning for Intrusion Detection\\
 \vspace{0.5cm}
-yahya.ahachim@epita.fr
-\end{center}
-\end{frame}
-
-%==============================================================================
-% Thank You
-%==============================================================================
-\begin{frame}
-\begin{center}
-\vspace{1cm}
-{\Large \textbf{Thank You}}
-\vspace{0.5cm}
-
-CIC-IIoT-2025 Security Analysis\\
-Machine Learning for Intrusion Detection
+ML Security -- EPITA SCIA 2026
 \end{center}
 \end{frame}
 
