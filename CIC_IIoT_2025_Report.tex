@@ -206,7 +206,7 @@ The feature distributions show bimodal patterns for MSS features (benign cluster
 
 The following preprocessing steps were applied:
 \begin{enumerate}
-    \item \textbf{Missing Value Handling:} NaN and infinite values replaced with column medians
+    \item \textbf{Missing Value Handling:} NaN values were to be replaced with median, but no NaN values were present in the dataset.
     \item \textbf{Feature Scaling:} StandardScaler normalization for consistent feature ranges
     \item \textbf{Label Encoding:} Binary encoding (0=Benign, 1=Attack) for the target variable
     \item \textbf{Train/Test Split:} 80/20 stratified split preserving class distribution
@@ -651,7 +651,7 @@ Fallback Strategy & Anomaly detection when classifier uncertain \\
 Key defense approaches include:
 \begin{itemize}
     \item \textbf{Input Validation:} Feature range clipping (MSS bounds, timing constraints) and statistical anomaly detection using Mahalanobis distance
-    \item \textbf{Adversarial Training:} Augmenting training data with FGSM-generated examples improves robust accuracy by 20-35\%
+    \item \textbf{Adversarial Training:} Augmenting training data with FGSM-generated or Gaussian-noise examples can improve robust accuracy.
     \item \textbf{Ensemble Diversification:} Training models on different feature subsets prevents transferable adversarial examples
     \item \textbf{Detection-Time:} Monitoring prediction confidence and using feature squeezing to identify adversarial inputs
 \end{itemize}
