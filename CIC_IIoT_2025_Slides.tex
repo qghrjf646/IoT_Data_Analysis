@@ -230,7 +230,7 @@ All classifiers achieve $>$87\% F1-score
 % Slide 9: Adversarial ML - Exploratory Attack
 %==============================================================================
 \begin{frame}{Adversarial ML: Exploratory Attack (FGSM)}
-\textbf{Fast Gradient Sign Method} -- Perturbs test samples
+\textbf{Fast Gradient Sign Method} -- Perturbs \textit{test-time inputs} to evade detection
 \vspace{0.2cm}
 
 \begin{equation*}
@@ -246,14 +246,15 @@ x_{adv} = x + \epsilon \cdot \text{sign}(\nabla_x J(\theta, x, y))
 \toprule
 $\epsilon$ & \textbf{Robust Acc.} \\
 \midrule
-0.01 & 86.7\% \\
-0.05 & 26.0\% \\
-0.10 & 16.0\% \\
-0.50 & 3.5\% \\
+0.01 & 32.1\% \\
+0.05 & 17.7\% \\
+0.10 & 13.3\% \\
+0.50 & 3.1\% \\
 \bottomrule
 \end{tabular}
 \end{table}
-\small Linear SVM (Astute: 89.8\%)
+\small \textbf{Model:} Linear SVM (Astute: 90.2\%)\\
+\small \textbf{Target:} Test samples only
 \end{column}
 \begin{column}{0.55\textwidth}
 \includegraphics[width=\textwidth]{figures/fgsm_attack_analysis.png}
@@ -265,8 +266,8 @@ $\epsilon$ & \textbf{Robust Acc.} \\
 % Slide 10: Adversarial ML - Causative Attack
 %==============================================================================
 \begin{frame}{Adversarial ML: Causative Attack (Data Poisoning)}
-\textbf{Label Flipping} -- Poisons training data to shift decision boundary
-\vspace{0.3cm}
+\textbf{Label Flipping} -- Poisons \textit{training data} to corrupt learned model
+\vspace{0.2cm}
 
 \begin{columns}
 \begin{column}{0.5\textwidth}
@@ -274,9 +275,9 @@ $\epsilon$ & \textbf{Robust Acc.} \\
 \begin{itemize}
     \item Attacker corrupts training labels
     \item Model learns incorrect boundaries
-    \item Attacks evade detection at inference
+    \item \textit{All} future predictions affected
 \end{itemize}
-\vspace{0.3cm}
+\vspace{0.2cm}
 \begin{table}
 \centering
 \small
@@ -284,15 +285,22 @@ $\epsilon$ & \textbf{Robust Acc.} \\
 \toprule
 \textbf{Poison Rate} & \textbf{Accuracy} \\
 \midrule
-0\% & 94.3\% \\
-10\% & 85.2\% \\
-20\% & 72.1\% \\
+0\% & 68.8\% \\
+10\% & 67.0\% \\
+20\% & 63.0\% \\
+25\% & 60.5\% \\
 \bottomrule
 \end{tabular}
 \end{table}
+\small \textbf{Model:} Linear SVM (2D PCA)\\
+\small \textbf{Target:} Training data
 \end{column}
 \begin{column}{0.5\textwidth}
-\includegraphics[width=\textwidth]{figures/decision_boundaries.png}
+\includegraphics[width=\textwidth]{figures/causative_attack_boundaries.png}
+\vspace{-0.3cm}
+\begin{center}
+\small Decision boundary shifts as poison rate increases
+\end{center}
 \end{column}
 \end{columns}
 \end{frame}

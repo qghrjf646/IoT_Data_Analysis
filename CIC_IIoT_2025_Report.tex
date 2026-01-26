@@ -469,9 +469,14 @@ Random Forest creates non-linear boundaries via ensemble averaging with natural 
 
 \subsection{Background}
 
-Machine learning models for cybersecurity can be vulnerable to adversarial attacks where malicious actors craft inputs designed to evade detection. Understanding model robustness is critical for deployment in security-sensitive applications. This section evaluates model vulnerability using the Fast Gradient Sign Method (FGSM).
+Machine learning models for cybersecurity can be vulnerable to adversarial attacks where malicious actors manipulate either the inputs or the training process to compromise model integrity. Understanding model robustness is critical for deployment in security-sensitive applications. We evaluate two fundamentally different attack paradigms:
 
-\subsection{FGSM Attack Implementation}
+\begin{itemize}
+    \item \textbf{Exploratory Attacks (Evasion):} The attacker manipulates \textit{test-time inputs} to evade a deployed model without modifying the model itself. The model remains unchanged; only the input is perturbed.
+    \item \textbf{Causative Attacks (Poisoning):} The attacker manipulates \textit{training data} to corrupt the learned model. The model itself is compromised, affecting all future predictions.
+\end{itemize}
+
+\subsection{Exploratory Attack: Fast Gradient Sign Method (FGSM)}
 
 The Fast Gradient Sign Method is a white-box attack that uses the gradient of the loss function to create perturbations maximizing classification error. The adversarial example is computed as:
 
@@ -557,12 +562,64 @@ Figure~\ref{fig:perturbation_vectors} shows how FGSM moves attack samples toward
 \label{fig:perturbation_vectors}
 \end{figure}
 
+\subsection{Causative Attack: Data Poisoning}
+
+Unlike exploratory attacks that manipulate inputs at test time, causative attacks target the \textit{training phase} itself. An attacker with access to training data can inject malicious samples or flip labels to corrupt the learned decision boundary. We demonstrate this using a label flipping attack on a Linear SVM classifier trained on 2D PCA-projected data.
+
+\textbf{Attack Mechanism:}
+\begin{enumerate}
+    \item Select a fraction of attack samples from the training set
+    \item Flip their labels from ``attack'' to ``benign''
+    \item Shift the poisoned samples toward the benign centroid
+    \item Retrain the model on the corrupted dataset
+\end{enumerate}
+
+\begin{table}[H]
+\centering
+\caption{Causative Attack Results on Linear SVM (2D PCA projection)}
+\label{tab:causative_results}
+\begin{tabular}{ccc}
+\toprule
+\textbf{Poison Rate} & \textbf{Test Accuracy} & \textbf{Accuracy Drop} \\
+\midrule
+0\% (Baseline) & 68.84\% & --- \\
+5\% & 68.20\% & -0.64\% \\
+10\% & 67.04\% & -1.80\% \\
+15\% & 65.36\% & -3.48\% \\
+20\% & 63.02\% & -5.82\% \\
+25\% & 60.54\% & -8.30\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Figure~\ref{fig:causative_boundaries} illustrates how increasing poison rates progressively shift the decision boundary, allowing more attack samples to be misclassified as benign. At 25\% poisoning, accuracy drops by over 8 percentage points, demonstrating the real threat of training data manipulation.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{figures/causative_attack_boundaries.png}
-\caption{Impact of causative attacks on decision boundaries.}
-\label{fig:vulnerability_comparison}
+\caption{Decision boundary shift due to data poisoning at various poison rates. The Linear SVM model was trained on 2D PCA-projected data. As poison rate increases, the boundary shifts to misclassify more attack samples as benign.}
+\label{fig:causative_boundaries}
 \end{figure}
+
+\subsection{Attack Comparison Summary}
+
+\begin{table}[H]
+\centering
+\caption{Comparison of Adversarial Attack Types}
+\label{tab:attack_comparison}
+\begin{tabular}{p{3cm}p{5.5cm}p{5.5cm}}
+\toprule
+\textbf{Aspect} & \textbf{Exploratory (FGSM)} & \textbf{Causative (Poisoning)} \\
+\midrule
+Attack Target & Test inputs & Training data \\
+Model State & Unchanged & Corrupted \\
+Attacker Access & Model gradients (white-box) & Training pipeline \\
+Attack Timing & Inference time & Training time \\
+Impact Scope & Individual samples & All future predictions \\
+Defense Strategy & Input validation, adversarial training & Data sanitization, robust training \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 %==============================================================================
 \section{Results Summary}
