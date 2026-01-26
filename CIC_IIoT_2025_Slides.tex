@@ -153,9 +153,9 @@ Local Outlier Factor & Local density deviation detection \\
 \toprule
 \textbf{Model} & \textbf{F1} & \textbf{AUPRC} & \textbf{MCC} \\
 \midrule
-Isolation Forest & 0.832 & 0.889 & 0.688 \\
-One-Class SVM & 0.693 & 0.862 & 0.276 \\
-\textbf{LOF} & \textbf{0.844} & \textbf{0.895} & \textbf{0.705} \\
+Isolation Forest & 0.812 & 0.860 & 0.694 \\
+One-Class SVM & 0.789 & 0.826 & 0.663 \\
+\textbf{LOF} & \textbf{0.831} & \textbf{0.873} & \textbf{0.721} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -292,7 +292,7 @@ $\epsilon$ & \textbf{Robust Acc.} \\
 \end{table}
 \end{column}
 \begin{column}{0.5\textwidth}
-\includegraphics[width=\textwidth]{figures/decision_boundary.png}
+\includegraphics[width=\textwidth]{figures/decision_boundaries.png}
 \end{column}
 \end{columns}
 \end{frame}
@@ -307,15 +307,15 @@ $\epsilon$ & \textbf{Robust Acc.} \\
 \toprule
 \textbf{Model} & \textbf{Astute Acc.} & \textbf{Robust Acc.} & \textbf{Robustness Ratio} \\
 \midrule
-Linear SVM & 90.2\% & 3.2\% & 3.6\% \\
-Random Forest & 94.6\% & 3.8\% & 4.0\% \\
-\textbf{Gradient Boosting} & \textbf{94.4\%} & \textbf{34.0\%} & \textbf{36.0\%} \\
+Linear SVM & 90.2\% & 3.1\% & 3.5\% \\
+Gradient Boosting & 94.4\% & 34.2\% & 36.2\% \\
+\textbf{Random Forest} & \textbf{94.6\%} & \textbf{41.8\%} & \textbf{44.2\%} \\
 \bottomrule
 \end{tabular}
 \end{table}
 \vspace{0.5cm}
 \begin{center}
-\textbf{Finding:} Gradient Boosting retains 36\% accuracy under FGSM attack\\
+\textbf{Finding:} Random Forest retains 44\% accuracy under FGSM attack\\
 Linear models collapse to near-random performance
 \end{center}
 \end{frame}
@@ -331,9 +331,9 @@ Linear models collapse to near-random performance
 \toprule
 \textbf{Task} & \textbf{Best Model} & \textbf{Key Metric} \\
 \midrule
-Zero-day Detection & Local Outlier Factor & F1 = 0.844, AUPRC = 0.895 \\
+Zero-day Detection & Local Outlier Factor & F1 = 0.831, AUPRC = 0.873 \\
 Attack Classification & Random Forest & F1 = 0.927, AUPRC = 0.946 \\
-Adversarial Robustness & Gradient Boosting & 36.0\% robust acc. \\
+Adversarial Robustness & Random Forest & 44.2\% robust acc. \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -349,7 +349,7 @@ Adversarial Robustness & Gradient Boosting & 36.0\% robust acc. \\
 \vspace{0.3cm}
 \begin{enumerate}
     \item \textbf{Layer 1 (LOF):} Zero-day attack early warning
-    \item \textbf{Layer 2 (Random Forest + Gradient Boosting):} Classification ensemble for accuracy and robustness
+    \item \textbf{Layer 2 (Random Forest):} Classification with best accuracy and adversarial robustness
     \item \textbf{Layer 3:} Input validation and adversarial training
 \end{enumerate}
 \vspace{0.5cm}
