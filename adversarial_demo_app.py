@@ -828,8 +828,7 @@ def main():
         else:
             video_path, baseline_acc, poisoned_acc, temp_dir = generate_poisoning_video(
                 model_name, X_train, y_train, X_test, y_test,
-                poison_rate, n_frames, fps, update_progress, feature_names,
-                poison_rate, n_frames, fps, update_progress
+                poison_rate, n_frames, fps, update_progress, feature_names
             )
             clean_acc = baseline_acc
             adv_acc = poisoned_acc
