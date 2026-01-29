@@ -14,7 +14,7 @@ export default function Slide01Title() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <h1 className="text-8xl font-display font-black mb-4">
+          <h1 className="text-6xl md:text-8xl font-display font-black mb-4 leading-tight">
             <GlitchText 
               text="CIC-IIoT-2025" 
               className="text-neon-primary text-glow-cyan"

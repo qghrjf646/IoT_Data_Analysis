@@ -23,7 +23,7 @@ export default function Slide10CausativeAttack() {
       <motion.h2
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
-        className="relative z-10 text-5xl font-display font-bold text-neon-secondary mb-2"
+        className="relative z-10 text-4xl font-display font-bold text-neon-secondary mb-2 leading-tight"
       >
         Causative Attack (Label Flipping)
       </motion.h2>
@@ -37,7 +37,7 @@ export default function Slide10CausativeAttack() {
         Poisons training data to corrupt learned model
       </motion.p>
 
-      <div className="relative z-10 flex-1 grid grid-cols-2 gap-8 min-h-0">
+      <div className="relative z-10 flex-1 grid grid-cols-1 lg:grid-cols-2 gap-8 min-h-0">
         <div className="flex flex-col gap-4 min-h-0">
           <NeonCard delay={0.4} glow="magenta" title="Attack Mechanism">
             <div className="mt-4 space-y-3">
@@ -52,19 +52,19 @@ export default function Slide10CausativeAttack() {
                   <div className="w-8 h-8 shrink-0 rounded-full bg-neon-secondary/20 border border-neon-secondary/50 flex items-center justify-center text-neon-secondary font-bold">
                     {i + 1}
                   </div>
-                  <span className="text-neon-text">{step}</span>
+                  <span className="text-neon-text whitespace-normal">{step}</span>
                 </motion.div>
               ))}
             </div>
           </NeonCard>
 
           <NeonCard delay={0.8} glow="violet" title="Poison Rate Impact">
-            <div className="mt-4">
-              <table className="w-full">
+            <div className="mt-4 overflow-x-auto custom-scrollbar">
+              <table className="w-full min-w-[250px]">
                 <thead>
                   <tr className="text-neon-muted text-sm border-b border-neon-muted/20">
-                    <th className="text-left py-2">Poison Rate</th>
-                    <th className="text-right py-2">Accuracy</th>
+                    <th className="text-left py-2 whitespace-nowrap">Poison Rate</th>
+                    <th className="text-right py-2 whitespace-nowrap">Accuracy</th>
                   </tr>
                 </thead>
                 <tbody>

@@ -35,7 +35,7 @@ export default function Slide12Summary() {
       <motion.h2
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
-        className="relative z-10 text-7xl font-display font-bold text-neon-primary mb-2"
+        className="relative z-10 text-5xl md:text-7xl font-display font-bold text-neon-primary mb-2 leading-tight"
       >
         Summary: Best Models by Task
       </motion.h2>
@@ -49,7 +49,7 @@ export default function Slide12Summary() {
         Récapitulatif des meilleurs modèles
       </motion.p>
 
-      <div className="relative z-10 flex-1 grid grid-cols-3 gap-8">
+      <div className="relative z-10 flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {tasks.map((t, i) => (
           <NeonCard
             key={t.task}

@@ -38,7 +38,7 @@ export default function Slide13Recommendations() {
       <motion.h2
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
-        className="relative z-10 text-7xl font-display font-bold text-neon-accent mb-2"
+        className="relative z-10 text-5xl md:text-7xl font-display font-bold text-neon-accent mb-2 leading-tight"
       >
         Recommendations
       </motion.h2>
@@ -52,7 +52,7 @@ export default function Slide13Recommendations() {
         Multi-Layer Defense Architecture
       </motion.p>
 
-      <div className="relative z-10 flex-1 grid grid-cols-2 gap-8">
+      <div className="relative z-10 flex-1 grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="space-y-4">
           {layers.map((layer, i) => (
             <motion.div

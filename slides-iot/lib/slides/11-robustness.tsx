@@ -16,7 +16,7 @@ export default function Slide11Robustness() {
       <motion.h2
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
-        className="relative z-10 text-7xl font-display font-bold text-neon-accent mb-2"
+        className="relative z-10 text-5xl font-display font-bold text-neon-accent mb-2 leading-tight"
       >
         Model Robustness Comparison
       </motion.h2>
@@ -32,15 +32,16 @@ export default function Slide11Robustness() {
 
       <div className="relative z-10 flex-1 flex flex-col justify-center">
         <NeonCard delay={0.4} glow="violet" className="max-w-5xl mx-auto w-full">
-          <table className="w-full">
-            <thead>
-              <tr className="text-neon-muted border-b border-neon-muted/20">
-                <th className="text-left py-4 text-lg">Model</th>
-                <th className="text-right py-4 text-lg">Astute Acc.</th>
-                <th className="text-right py-4 text-lg">Robust Acc.</th>
-                <th className="text-right py-4 text-lg">Robustness Ratio</th>
-              </tr>
-            </thead>
+          <div className="overflow-x-auto custom-scrollbar">
+            <table className="w-full min-w-[600px]">
+              <thead>
+                <tr className="text-neon-muted border-b border-neon-muted/20">
+                  <th className="text-left py-4 text-lg whitespace-nowrap">Model</th>
+                  <th className="text-right py-4 text-lg whitespace-nowrap">Astute Acc.</th>
+                  <th className="text-right py-4 text-lg whitespace-nowrap">Robust Acc.</th>
+                  <th className="text-right py-4 text-lg whitespace-nowrap">Robustness Ratio</th>
+                </tr>
+              </thead>
             <tbody>
               {results.map((r, i) => (
                 <motion.tr

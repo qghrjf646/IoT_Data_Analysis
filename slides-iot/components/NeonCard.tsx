@@ -69,7 +69,7 @@ export default function NeonCard({
           </h3>
         </div>
       )}
-      <div className="h-full">
+      <div className="h-full overflow-auto custom-scrollbar">
         {children}
       </div>
     </motion.div>

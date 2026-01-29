@@ -13,7 +13,7 @@ export default function Slide14Questions() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <h1 className="text-9xl font-display font-black mb-8">
+          <h1 className="text-6xl md:text-9xl font-display font-black mb-8 leading-tight">
             <GlitchText 
               text="Questions?" 
               className="text-neon-secondary text-glow-magenta"

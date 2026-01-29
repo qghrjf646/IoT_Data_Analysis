@@ -19,7 +19,7 @@ export default function Slide02Agenda() {
       <motion.h2
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
-        className="relative z-10 text-7xl font-display font-bold text-neon-primary mb-4"
+        className="relative z-10 text-5xl md:text-7xl font-display font-bold text-neon-primary mb-4 leading-tight"
       >
         Agenda
       </motion.h2>
@@ -28,7 +28,7 @@ export default function Slide02Agenda() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
-        className="relative z-10 text-2xl text-neon-muted mb-12"
+        className="relative z-10 text-xl md:text-2xl text-neon-muted mb-12"
       >
         Plan de présentation
       </motion.p>
@@ -43,14 +43,14 @@ export default function Slide02Agenda() {
             className="flex items-center gap-6 group"
           >
             <div className={`
-              w-16 h-16 rounded-xl flex items-center justify-center
-              bg-neon-bg/60 border-2 transition-all duration-300
+              w-12 h-12 md:w-16 md:h-16 rounded-xl flex items-center justify-center
+              bg-neon-bg/60 border-2 transition-all duration-300 shrink-0
               ${item.color === "cyan" ? "border-neon-primary/50 group-hover:shadow-neon-cyan" : ""}
               ${item.color === "magenta" ? "border-neon-secondary/50 group-hover:shadow-neon-magenta" : ""}
               ${item.color === "violet" ? "border-neon-accent/50 group-hover:shadow-neon-violet" : ""}
             `}>
               <item.icon 
-                size={32} 
+                size={24} 
                 className={`
                   ${item.color === "cyan" ? "text-neon-primary" : ""}
                   ${item.color === "magenta" ? "text-neon-secondary" : ""}
@@ -58,9 +58,9 @@ export default function Slide02Agenda() {
                 `}
               />
             </div>
-            <div className="flex items-center gap-4">
-              <span className="text-3xl font-display font-bold text-neon-muted">{i + 1}.</span>
-              <span className="text-2xl text-neon-text font-mono">{item.text}</span>
+            <div className="flex items-center gap-4 min-w-0">
+              <span className="text-xl md:text-3xl font-display font-bold text-neon-muted shrink-0">{i + 1}.</span>
+              <span className="text-lg md:text-2xl text-neon-text font-mono truncate">{item.text}</span>
             </div>
           </motion.div>
         ))}
@@ -72,10 +72,10 @@ export default function Slide02Agenda() {
         transition={{ delay: 1.5 }}
         className="relative z-10 mt-8"
       >
-        <NeonCard glow="magenta" className="inline-block">
-          <div className="flex items-center gap-4">
-            <span className="text-neon-secondary font-bold">Objectif:</span>
-            <span className="text-neon-text">Évaluer les méthodes ML pour IIoT intrusion detection et robustesse adversariale</span>
+        <NeonCard glow="magenta" className="inline-block max-w-full">
+          <div className="flex flex-wrap items-center gap-4">
+            <span className="text-neon-secondary font-bold shrink-0">Objectif:</span>
+            <span className="text-neon-text whitespace-normal">Évaluer les méthodes ML pour IIoT intrusion detection et robustesse adversariale</span>
           </div>
         </NeonCard>
       </motion.div>
