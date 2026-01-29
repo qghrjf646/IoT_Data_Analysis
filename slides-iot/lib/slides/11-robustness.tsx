@@ -42,7 +42,7 @@ export default function Slide11Robustness() {
                   <th className="text-right py-4 text-lg whitespace-nowrap">Robustness Ratio</th>
                 </tr>
               </thead>
-            <tbody>
+              <tbody>
               {results.map((r, i) => (
                 <motion.tr
                   key={r.model}
@@ -61,8 +61,9 @@ export default function Slide11Robustness() {
                   </td>
                 </motion.tr>
               ))}
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          </div>
         </NeonCard>
 
         <motion.div
