@@ -16,7 +16,7 @@ export default function Slide06AnomalyResults() {
       <motion.h2
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
-        className="relative z-10 text-5xl font-display font-bold text-neon-secondary mb-2 leading-tight"
+        className="relative z-10 text-4xl md:text-5xl font-display font-bold text-neon-secondary mb-4 mt-4 leading-tight"
       >
         Anomaly Detection Results
       </motion.h2>

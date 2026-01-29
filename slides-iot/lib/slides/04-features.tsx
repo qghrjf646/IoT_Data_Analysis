@@ -19,7 +19,7 @@ export default function Slide04Features() {
       <motion.h2
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
-        className="relative z-10 text-7xl font-display font-bold text-neon-primary mb-2"
+        className="relative z-10 text-5xl md:text-7xl font-display font-bold text-neon-primary mb-4 mt-4 leading-tight"
       >
         Key Discriminative Features
       </motion.h2>

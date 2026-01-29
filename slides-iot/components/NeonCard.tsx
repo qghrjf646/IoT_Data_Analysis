@@ -63,13 +63,13 @@ export default function NeonCard({
       </div>
 
       {title && (
-        <div className="absolute -top-4 left-6 bg-neon-bg px-3 z-10">
+        <div className="absolute top-0 left-6 -translate-y-1/2 bg-neon-bg px-3 z-10 border-x border-neon-muted/20">
           <h3 className={`text-lg font-bold tracking-wider uppercase ${textColors[glow]}`}>
             {title}
           </h3>
         </div>
       )}
-      <div className="h-full overflow-auto custom-scrollbar">
+      <div className="h-full overflow-auto custom-scrollbar pt-2">
         {children}
       </div>
     </motion.div>

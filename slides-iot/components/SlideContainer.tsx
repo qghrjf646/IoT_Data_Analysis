@@ -89,10 +89,11 @@ export default function SlideContainer({ children, slideNumber }: SlideContainer
       <div 
         style={{ 
           transform: `scale(${scale})`,
-          transformOrigin: "center center",
+          transformOrigin: "top center",
           width: "1920px",
           height: "1080px",
-          flexShrink: 0
+          flexShrink: 0,
+          marginTop: `${Math.max(0, (window.innerHeight - 1080 * scale) / 2)}px`
         }}
         className={`relative z-10 overflow-hidden flex flex-col ${isWarping ? "chromatic-aberration" : ""}`}
       >
